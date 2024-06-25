@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/autore")
@@ -23,22 +24,22 @@ public class AutoreController {
 
     // 2) ritorna un singolo autore (GET)
     @GetMapping("/{id}")
-    public Autore getAutoreById(@PathVariable int id) {
-        return autoreList.stream().filter(post -> post.getId() == (id)).findFirst().orElse(null);
+    public Autore getAutoreById(@PathVariable UUID id) {
+        return autoreList.stream().filter(post -> post.getId().equals(id)).findFirst().orElse(null);
     }
 
     // 3) crea un nuovo blog post (POST)
     @PostMapping
     public Autore createAutore(@RequestBody Autore autore) {
-        autore.setId((int) (autoreList.size() + 1));
+        autore.setId(UUID.randomUUID());
         autoreList.add(autore);
         return autore;
     }
 
     // 4) modifica lo specifico blo post (PUT)
     @PutMapping("/{id}")
-    public Autore updateAutore(@PathVariable int id, @RequestBody Autore modificaAutore) {
-        Optional<Autore> prova = autoreList.stream().filter(post -> post.getId() == (id)).findFirst();
+    public Autore updateAutore(@PathVariable UUID id, @RequestBody Autore modificaAutore) {
+        Optional<Autore> prova = autoreList.stream().filter(post -> post.getId().equals(id)).findFirst();
         if (prova.isPresent()) {
             Autore autore = prova.get();
             autore.setNome(modificaAutore.getNome());
@@ -54,8 +55,8 @@ public class AutoreController {
 
     // 5) cancella lo specifico blog post (DELETE)
     @DeleteMapping("/{id}")
-    public void deleteAutore(@PathVariable int id) {
-        autoreList.removeIf(post -> post.getId() == (id));
+    public void deleteAutore(@PathVariable UUID id) {
+        autoreList.removeIf(post -> post.getId().equals(id));
     }
 
 

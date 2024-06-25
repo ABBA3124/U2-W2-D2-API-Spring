@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 @Data
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 public class Autore {
-    private int id;
+    private UUID id;
     private String nome;
     private String cognome;
     private String email;
